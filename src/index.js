@@ -62,6 +62,7 @@ class App extends React.Component{
   render(){
     return(
       <HashRouter>
+        <h1>Acme Event Planner with Redux</h1>
         <Route component={ Nav} />
         <Route exact path='/' component={ Home } />
         <Route path='/events' component={ Events } />
