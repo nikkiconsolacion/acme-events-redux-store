@@ -9,6 +9,9 @@ const reducer = combineReducers({
     else if (action.type === 'SET_EVENTS'){
       state = action.events;
     }
+    else if (action.type === 'DELETE_EVENT'){
+      state = [...state].filter(event => event.id !== action.id);
+    }
     return state;
   }
 });
@@ -21,8 +24,9 @@ const addEvent = async()=> {
   store.dispatch({ type: 'ADD_EVENT', event: (await axios.post('/api/events')).data});
 };
 
-const deleteEvent = async()=> {
-  store.dispatch({ type: 'DELETE_EVENT', event: (await axios.delete('/api/events')).data})
+const deleteEvent = async(id)=> {
+  await axios.delete(`/api/events/${id}`);
+  store.dispatch({ type: 'DELETE_EVENT', id})
 };
 
 

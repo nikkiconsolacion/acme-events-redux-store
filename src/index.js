@@ -25,14 +25,21 @@ const connect = (Component)=> {
   return Connected;
 }
 
-const Nav = connect(({ Home, Events})=> {
+const Nav = connect(({ events})=> {
   return (
     <nav>
-
-      <Link to='/events'>Events ()</Link>
+      <Link to='/'>Home</Link>
+      <Link to='/events'>Events ({events.length})</Link>
     </nav>
   );
-  //<Link to='/home'>Home</Link>
+});
+
+const Home = connect(({events})=> {
+  return (
+    <div>
+      You have {events.length} events!
+    </div>
+  )
 });
 
 const Events = connect(({ events })=> {
@@ -41,7 +48,7 @@ const Events = connect(({ events })=> {
       <button onClick={ addEvent }>Create</button>
       <ul>
         {
-          events.map( event => <li key={event.id}>{ event.name}</li>)
+          events.map( event => <li key={event.id} onClick={ ()=> deleteEvent(event.id)}>{ event.name}</li>)
         }
       </ul>
     </div>
@@ -56,6 +63,7 @@ class App extends React.Component{
     return(
       <HashRouter>
         <Route component={ Nav} />
+        <Route exact path='/' component={ Home } />
         <Route path='/events' component={ Events } />
       </HashRouter>
     )
